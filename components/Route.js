@@ -10,6 +10,7 @@ import { createAppContainer} from 'react-navigation';
 import { createDrawerNavigator,DrawerItems } from 'react-navigation-drawer';
 import Splash from './Splash';
 import News from './News';
+import NewsDetails from './NewsDetails';
 import{Container,Content,Header,Body} from 'native-base';
 
 
@@ -47,7 +48,12 @@ const screens = {
         screen: News,
         header: null,
         
-    },   
+    },
+    NewsDetails: {
+        screen: NewsDetails,
+        header: null,
+        
+    },      
 }
 const CustomDrawerContentComponent = props =>(
     <Container>

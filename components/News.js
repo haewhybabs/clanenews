@@ -23,6 +23,9 @@ class News extends Component{
         this.state = {
             
             isLoading:true,
+            page:1,
+            limit:10,
+            dataSource:[],
            
             
         }
@@ -32,10 +35,35 @@ class News extends Component{
 
    
     componentDidMount() {
-       
-        this.setState({
-            isLoading:false
+
+        fetch(apiUrl+'news?page='+this.state.page+'&limit='+this.state.limit,{
+            method:"GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept':'application/json'
+            }
+            
         })
+        .then(response => {
+                                
+            return response.json();      
+        })
+        
+        .then((contents)=>{
+
+            this.setState({
+
+                dataSource:contents,
+                isLoading:false
+
+            });
+        })
+        .catch((error)=>{
+
+            this.errorInConnection();
+        })
+       
+       
         
     }
 
@@ -55,6 +83,10 @@ class News extends Component{
 
     hideLoader = () =>{
         this.setState({isLoading:false})
+    }
+
+    ReadHandler = () =>{
+        this.props.navigation.navigate('NewsDetails')
     }
 
     
@@ -87,10 +119,14 @@ class News extends Component{
                             <View style={{marginLeft:5,marginRight:5}}>
                                 <Card>
                                     <CardItem>
-                                        <Icon active name="logo-hackernews" />
-                                        <Text style={{fontWeight:'bold'}}>Corona Virus is upto 9000 cases in Nigeria</Text>
+                                        <Row>
+                                            <Icon active name="logo-hackernews" />
+                                            <Text style={{fontWeight:'bold'}}>Corona Virus is up to 9000 cases in Nigeria</Text>
+                                        </Row>
                                         <Right>
-                                            <Icon name="arrow-forward" />
+                                            <Button rounded style={{width:60,height:30}} onPress={this.ReadHandler}>
+                                                <Text style={{textAlign:'center',width:'100%',color:'#fff'}}>Read</Text>
+                                            </Button>
                                         </Right>
                                     </CardItem>
                                     <CardItem>  
@@ -102,10 +138,14 @@ class News extends Component{
                                 </Card>
                                 <Card>
                                     <CardItem>
-                                        <Icon active name="logo-hackernews" />
-                                        <Text style={{fontWeight:'bold'}}>Corona Virus is upto 9000 cases in Nigeria</Text>
+                                        <Row>
+                                            <Icon active name="logo-hackernews" />
+                                            <Text style={{fontWeight:'bold'}}>Corona Virus is up to 9000 cases in Nigeria</Text>
+                                        </Row>
                                         <Right>
-                                            <Icon name="arrow-forward" />
+                                            <Button rounded style={{width:60,height:30}}>
+                                                <Text style={{textAlign:'center',width:'100%',color:'#fff'}}>Read</Text>
+                                            </Button>
                                         </Right>
                                     </CardItem>
                                     <CardItem>  
@@ -115,12 +155,17 @@ class News extends Component{
                                         </Right>
                                     </CardItem>
                                 </Card>
+
                                 <Card>
                                     <CardItem>
-                                        <Icon active name="logo-hackernews" />
-                                        <Text style={{fontWeight:'bold'}}>Corona Virus is upto 9000 cases in Nigeria</Text>
+                                        <Row>
+                                            <Icon active name="logo-hackernews" />
+                                            <Text style={{fontWeight:'bold'}}>Corona Virus is up to 9000 cases in Nigeria</Text>
+                                        </Row>
                                         <Right>
-                                            <Icon name="arrow-forward" />
+                                            <Button rounded style={{width:60,height:30}}>
+                                                <Text style={{textAlign:'center',width:'100%',color:'#fff'}}>Read</Text>
+                                            </Button>
                                         </Right>
                                     </CardItem>
                                     <CardItem>  
@@ -130,11 +175,26 @@ class News extends Component{
                                         </Right>
                                     </CardItem>
                                 </Card>
-                            </View>
-                           
+
+                                <View>
+                                    <Row>
+                                        
+                                        <Button transparent style={{width:60}}>
+                                            <Text style={{textAlign:'center',width:'100%',color:'red'}}>Previous</Text>
+                                        </Button>
+                                    
+
+                                        <Button transparent style={{width:60}}>
+                                            <Text style={{textAlign:'center',width:'100%',color:'green'}}>Next</Text>
+                                        </Button>
+                                    </Row>
+                                </View>
+
+                                
+                            </View>       
                         </Content>
                         <FooterScreen navigation = {this.props.navigation}/>                    
-                </Container>
+                    </Container>
                 </Root>
             );
 
