@@ -1,11 +1,6 @@
 
 import React,{Component} from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View,
-   } from 'react-native';
-   import {Container} from 'native-base';
+import {Container} from 'native-base';
 import Route from './components/Route';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
