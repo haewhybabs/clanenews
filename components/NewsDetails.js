@@ -25,7 +25,10 @@ class NewsDetails extends Component{
             
             isLoading:true,
             url:props.navigation.getParam('url'),
-            title:'News Details'
+            title:'News Details',
+            commentSource:[],
+            dataSource:[],
+            imageSource:null
            
             
         }
@@ -33,7 +36,34 @@ class NewsDetails extends Component{
        
     }
 
-    fetchData = () => 
+    fetchImage = async(id)=>{
+
+        fetch(apiUrl+'news/'+id+'/images',{
+            method:"GET",
+            headers: {
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            },
+
+        })
+        .then(response => {                    
+            return response.json();      
+        })
+        
+        .then((contents)=>{
+
+            console.log(contents)
+            this.setState({
+                imageSource:contents.image,
+            });
+        })
+        .catch((error)=>{
+
+            this.errorInConnection();
+        })
+    }
+
+    fetchData = async() => 
     {
         const url = this.state.url;  
         fetch(url,{
@@ -55,6 +85,7 @@ class NewsDetails extends Component{
                 dataSource:contents,
             });
             this.fetchComments(contents.id)
+            this.fetchImage(contents.id)
         })
         .catch((error)=>{
 
@@ -100,12 +131,22 @@ class NewsDetails extends Component{
     {
         this.showLoader();
         fetch(apiUrl+'news/'+newsId+'/comments/'+id,{
-            method:"DELETE",
+            method:"delete",
+
             headers: {
                 "key": "Content-Type",
                 "name": "Content-Type",
                 "value": "application/json",
                 "type": "text"
+            },
+            body: {
+                "mode": "raw",
+                "raw": "",
+                "options": {
+                    "raw": {
+                        "language": "json"
+                    }
+                }
             },
         })
         .then(response => {                    
@@ -114,16 +155,19 @@ class NewsDetails extends Component{
         
         .then((contents)=>{
 
+            this.hideLoader();
+            
             Toast.show({
                 text:'Success!!!!',
                 buttonText:'Okay',
                 style:{backgroundColor:'green'}
                 
             }) 
+            this.fetchData();
         })
         .catch((error)=>{
 
-            this.errorInConnection();
+            
         })
     }
 
@@ -171,7 +215,10 @@ class NewsDetails extends Component{
                     <Container style={{backgroundColor:'#fff'}}>   
                         <HeaderScreen navigation={this.props.navigation} title={this.state.title}/>
                         <Content>          
-                            <Image source={require('../assets/news-background.jpg')}
+                            <Image 
+                            source={this.state.imageSource!= null ? {uri:this.state.imageSource}:
+                            require('../assets/news-background.jpg')}
+                            
                                 style={{width:'100%',height:250}}
                             />
                             
