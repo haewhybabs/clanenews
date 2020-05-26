@@ -25,7 +25,7 @@ class FooterScreen extends Component{
     }
     
     CreateNewsHandler = () =>{
-        this.props.navigation.navigate('Create');
+        this.props.navigation.navigate('CreateNews');
     }
 
 

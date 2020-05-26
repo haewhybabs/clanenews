@@ -50,8 +50,36 @@ class NewsDetails extends Component{
         })
         
         .then((contents)=>{
+            
             this.setState({
                 dataSource:contents,
+            });
+            this.fetchComments(contents.id)
+        })
+        .catch((error)=>{
+
+            this.errorInConnection();
+        })
+    }
+    fetchComments = async(id) =>{
+
+        fetch(apiUrl+'news/'+id+'/comments',{
+            method:"GET",
+            headers: {
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            },
+
+        })
+        .then(response => {                    
+            return response.json();      
+        })
+        
+        .then((contents)=>{
+
+            console.log(contents)
+            this.setState({
+                commentSource:contents,
                 isLoading:false
 
             });
