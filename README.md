@@ -23,7 +23,7 @@ follow the following commands to get it started:
 * start the server with "react-native run-android"
 
 ## APK File
-https://
+https://drive.google.com/file/d/1GxTaC8sB1GuAamliexaKGvwzV7X4aGr6/view?usp=sharing
 
 ## Author
 **Ayobami Babalola**
