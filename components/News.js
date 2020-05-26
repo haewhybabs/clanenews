@@ -121,8 +121,8 @@ class News extends Component{
         this.setState({isLoading:false})
     }
 
-    ReadHandler = () =>{
-        this.props.navigation.navigate('NewsDetails')
+    ReadHandler = (url) =>{
+        this.props.navigation.navigate('NewsDetails',{url})
     }
     nextHandler = () =>
     {
@@ -187,7 +187,7 @@ class News extends Component{
                                             <Text style={{fontWeight:'bold'}}>{row.title}</Text>
                                         </Row>
                                         <Right>
-                                            <Button rounded style={{width:60,height:30}} onPress={this.ReadHandler}>
+                                            <Button rounded style={{width:60,height:30}} onPress={()=>this.ReadHandler(row.url)}>
                                                 <Text style={{textAlign:'center',width:'100%',color:'#fff'}}>Read</Text>
                                             </Button>
                                         </Right>
@@ -214,7 +214,6 @@ class News extends Component{
                                     {this.state.page ===this.state.maxPage ?
                                         null
                                         :
-
                                         <Button transparent style={{width:60}} onPress={()=>{this.nextHandler()}}>
                                             <Text style={{textAlign:'center',width:'100%',color:'green'}}>Next</Text>
                                         </Button>

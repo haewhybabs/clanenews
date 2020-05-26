@@ -51,7 +51,12 @@ const screens = {
     },
     NewsDetails: {
         screen: NewsDetails,
-        header: null,
+        navigationOptions:({navigation}) =>{
+            return {
+                drawerLabel: ()=> null,
+            }
+        }
+        
         
     },      
 }
@@ -82,8 +87,8 @@ const Navigator = createAppContainer(HomeStack);
 const styles = StyleSheet.create({
     
     drawerImage:{
-        height:40,
-        width:200,
+        height:45,
+        width:152,
         borderRadius:75
     }
 });

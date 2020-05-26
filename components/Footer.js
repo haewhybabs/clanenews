@@ -33,7 +33,7 @@ class FooterScreen extends Component{
         return(
             <Footer>
                 <FooterTab  style={{backgroundColor:'#3200c8'}}>
-                    <Button vertical onPress={this.DashboardHandler}>
+                    <Button vertical onPress={()=>this.NewsHandler()}>
                         <Icon name="apps" />
                         <Text style={{color:'#fff'}}>News</Text>
                     </Button>
