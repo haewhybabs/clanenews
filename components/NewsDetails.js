@@ -96,6 +96,37 @@ class NewsDetails extends Component{
         this.fetchData();   
     }
 
+    deleteComment = (newsId,id)=>
+    {
+        this.showLoader();
+        fetch(apiUrl+'news/'+newsId+'/comments/'+id,{
+            method:"DELETE",
+            headers: {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+            },
+        })
+        .then(response => {                    
+            return response.json();      
+        })
+        
+        .then((contents)=>{
+
+            Toast.show({
+                text:'Success!!!!',
+                buttonText:'Okay',
+                style:{backgroundColor:'green'}
+                
+            }) 
+        })
+        .catch((error)=>{
+
+            this.errorInConnection();
+        })
+    }
+
     componentWillReceiveProps(props){
 
         this.setState({
@@ -125,9 +156,6 @@ class NewsDetails extends Component{
         this.setState({isLoading:false})
     }
 
-    
-
-  
     render(){
         
     
@@ -165,41 +193,34 @@ class NewsDetails extends Component{
                                     <View style={{borderBottomColor:'#e83e8c',borderBottomWidth:3,alignSelf:'stretch',marginTop:10}}/>
                                     <Text style={{fontWeight:'bold',marginTop:10}}>Comments</Text>
                                 </View>
-                                <View>
-                                    <Row>
-                                        <Thumbnail
-                                            source={require('../assets/noImage.png')}
-                                            scaleX={1} scaleY={1}
-                                            style={{width:30, height:30, borderRadius:30/2,marginTop:10}}
-                                        />
-                                        <Text style={{marginTop:15,marginLeft:5}}>Ayobami Babalola</Text>
-                                    </Row>
-                                    <View>
-                                        <Text style={{marginTop:5,lineHeight:23}}>We designed our loan process to fit your needs and help you grow. We support Small and Medium Scale Enterprises (SMEs) operators in Nigeria. Irrespective of the sector
-                                        your enterprise is operating at an affordable interest rate.
-                                        </Text>
-                                        <Text style={{lineHeight:23,fontWeight:'bold'}}>NB: 0.95% is our Monthly Interest,Overdue Interest is 1.00%</Text>
-                                    </View>
-                                   
 
-                                </View>
-
-                                <View>
-                                    <Row>
-                                        <Thumbnail
-                                            source={require('../assets/noImage.png')}
-                                            scaleX={1} scaleY={1}
-                                            style={{width:30, height:30, borderRadius:30/2,marginTop:10}}
-                                        />
-                                        <Text style={{marginTop:15,marginLeft:5}}>Ayobami Babalola</Text>
-                                    </Row>
+                                {this.state.commentSource.map((row,index)=>(
                                     <View>
-                                        <Text style={{marginTop:5,lineHeight:23}}>We designed our loan process to fit your needs and help you grow. We support Small and Medium Scale Enterprises (SMEs) operators in Nigeria. Irrespective of the sector
-                                        your enterprise is operating at an affordable interest rate.
-                                        </Text>
-                                        <Text style={{lineHeight:23,fontWeight:'bold'}}>NB: 0.95% is our Monthly Interest,Overdue Interest is 1.00%</Text>
+                                        <Row>
+                                            <Thumbnail
+                                                source = {row!= null ? {uri:row.avatar}:
+                                                require('../assets/noImage.png')}
+                                                scaleX={1} scaleY={1}
+                                                style={{width:30, height:30, borderRadius:30/2,marginTop:10}}
+                                            />
+                                            <Text style={{marginTop:15,marginLeft:5}}>{row.name}</Text>
+                                        </Row>
+                                        <View>
+                                            <Text style={{marginTop:5,lineHeight:23}}>{row.comment}</Text>
+                                        </View>
+
+                                        <Row>
+                                            <TouchableOpacity onPress={()=>this.deleteComment(row.newsId,id)}>
+                                                <Icon name="md-close" style={{color:'red'}}/>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity>
+                                                <Icon name="md-open" style={{marginLeft:20}}/>
+                                            </TouchableOpacity>
+                                        </Row>
+                                        
                                     </View>
-                                </View>
+                                ))}
                             </View>
                         </Content>
                         <FooterScreen navigation = {this.props.navigation}/>                    

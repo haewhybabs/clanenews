@@ -94,9 +94,10 @@ class CreateNews extends Component{
     submitValidation = () =>{
         
         let state = this.state;
-        let titleError = state.titleError;
-        let authorError= state.authorError;
-        let bodyError = state.bodyError;
+
+        let titleError =""
+        let authorError=""
+        let bodyError =""
 
         if(state.title == ""){
             titleError = 'Email cannot be empty';
@@ -125,19 +126,27 @@ class CreateNews extends Component{
             fetch(apiUrl+'news',{
                 method:"POST",
                 headers: {
-                    'Content-Type':'application/json',
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
                 },
-                body: JSON.stringify({
+                body: {
+                    raw:{
                     title:state.title,
                     body:state.body,
                     author:state.author
 
-                })   
+                    },
+                    mode:'raw',
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                } 
             })
             .then(response => {
-
-                console.log(response.text())
-                                    
                 return response.json();      
             })
             
@@ -145,17 +154,18 @@ class CreateNews extends Component{
 
                 console.log(contents)
 
-                Toast.show({
-                    text:'Success!!!!',
-                    buttonText:'Okay',
-                    style:{backgroundColor:'green'}
-                    
-                })  
+                 
                 this.setState({
                     dataSource:contents,
                     isLoading:false
     
                 });
+                Toast.show({
+                    text:'Success!!!!',
+                    buttonText:'Okay',
+                    style:{backgroundColor:'green'}
+                    
+                }) 
             })
             .catch((error)=>{
     
